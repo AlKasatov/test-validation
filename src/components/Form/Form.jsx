@@ -62,7 +62,6 @@ export default function Form(){
     }
 
     useEffect(()=>{
-        console.log(errorState)
         let errorStateValues = Object.values(errorState)
         if(errorStateValues.some(item => item === true) || errorStateValues.length < Object.keys(inputs).length){
             setCanSendForm(false)
