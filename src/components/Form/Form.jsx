@@ -14,9 +14,9 @@ export default function Form(){
     const {submitHandler, inputHandler, formState, errorState} = useForm(form1, sendForm)
 
     return(
-        <form className={s.form} onSubmit={submitHandler}>
+        <form className={s.form} onSubmit={submitHandler} onInput={inputHandler}>
             {Object.keys(form1).map(item => {
-                return <Input key={item} name={item} inputs={form1} errorState={errorState} inputHandler={inputHandler}/>
+                return <Input key={item} name={item} inputs={form1} errorState={errorState} />
             })}
             <button className={s.submitBtn}>Отправить</button>
         </form>

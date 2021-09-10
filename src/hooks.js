@@ -4,20 +4,24 @@ export const useForm = (inputs = {}, sendForm=()=>{}) => {
     const formState = useRef({})
     const [errorState, setErrorState] = useState({})
     const [canSendForm, setCanSendForm] = useState(false)
+    const [formWasValidatedOnce, setFormWasValidatedOnce] = useState(false)
 
     const inputHandler = e => {
         let name = e.target.name
         formState.current[name] = e.target.value
-        setErrorState(prev => {
-            return {
-                ...prev,
-                [name]: inputs[name].validate(formState.current[name])
-            }
-        })
+        if(formWasValidatedOnce){
+            setErrorState(prev => {
+                return {
+                    ...prev,
+                    [name]: inputs[name].validate(formState.current[name])
+                }
+            })
+        }
     }
 
     const submitHandler = e => {
         e.preventDefault()
+        setFormWasValidatedOnce(true)
         for(let input in inputs){
             setErrorState(prev => {
                 return {
