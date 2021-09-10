@@ -38,3 +38,18 @@
 .errorMsg{
     color: #f00;
 }
+.tooltip{
+    border: 1px solid darkred; 
+    background-color: black;
+    padding: 15px;
+    opacity: 0;
+    animation: appear .5s ease-in .5s 1 forwards;
+}
+@keyframes appear {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}

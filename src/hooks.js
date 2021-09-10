@@ -48,3 +48,51 @@ export const useForm = (inputs = {}, sendForm=()=>{}) => {
 
     return {submitHandler, inputHandler, formState, errorState}
 }
+
+export function useTooltip({fixed}){
+
+    const targetRef = useRef(null)
+    const tooltipRef = useRef(null)
+    const [isActive, setIsActive] = useState(false)
+
+    const styleEdit = (e) => {
+        if(tooltipRef.current){
+            tooltipRef.current.style.position ='fixed'
+            if(fixed){
+                tooltipRef.current.style.transform ='translate(0%, -110%)'
+                tooltipRef.current.style.top = targetRef.current.getBoundingClientRect().top + 'px'
+                tooltipRef.current.style.left = targetRef.current.getBoundingClientRect().left + 'px'
+            } else {
+                tooltipRef.current.style.transform ='translate(-50%, -95%)'
+                console.log(e)
+                tooltipRef.current.style.top = e.clientY + 'px'
+                tooltipRef.current.style.left = e.clientX + 'px'
+            }
+            tooltipRef.current.style.pointerEvents = 'none'
+        }
+    }
+    const mouseEnterHandler = (e) => {
+        setIsActive(true)
+        styleEdit(e)
+    }
+    const mouseMoveHandler = (e) => {
+        styleEdit(e)
+    }
+    const mouseLeaveHandler = (e) => {
+        setIsActive(false)
+    }
+
+    useEffect(()=>{
+        const target = targetRef.current
+        target.addEventListener('mousemove', mouseMoveHandler)
+        target.addEventListener('mouseleave', mouseLeaveHandler)
+        target.addEventListener('mouseenter', mouseEnterHandler)
+        return ()=>{
+            target.removeEventListener('mousemove', mouseMoveHandler)
+            target.removeEventListener('mouseleave', mouseLeaveHandler)
+            target.removeEventListener('mouseenter', mouseEnterHandler)
+        }
+    })
+
+    return {isActive, targetRef, tooltipRef}
+}
