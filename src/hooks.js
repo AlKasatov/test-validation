@@ -8,12 +8,13 @@ export const useForm = (inputs = {}, sendForm=()=>{}) => {
 
     const inputHandler = e => {
         let name = e.target.name
-        formState.current[name] = e.target.value
+        let type = e.target.type
+        formState.current[name] = type ==='checkbox' ? e.target.checked : e.target.value
         if(formWasValidatedOnce){
             setErrorState(prev => {
                 return {
                     ...prev,
-                    [name]: inputs[name].validate(formState.current[name])
+                    [name]: inputs[name].validate(formState.current[name], formState.current)
                 }
             })
         }
@@ -26,11 +27,12 @@ export const useForm = (inputs = {}, sendForm=()=>{}) => {
             setErrorState(prev => {
                 return {
                     ...prev,
-                    [input]: inputs[input].validate(formState.current[input] || '')
+                    [input]: inputs[input].validate(formState.current[input] || '', formState.current)
                 }
             })
         }
         if(canSendForm){
+            console.log('send')
             sendForm()
         }
     }

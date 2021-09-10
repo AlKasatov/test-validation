@@ -1,11 +1,19 @@
 import s from './Input.module.css'
 
-export default function Input({name, inputs, errorState}){
+export function Input({name, type, placeholder, inputs, errorState}){
     return(
         <div className={s.inputItem}>
-            <input name={name} className={s.input} placeholder={inputs[name].placeholder} type={inputs[name].type} />
+            <input name={name} className={s.input} placeholder={placeholder} type={type} />
             {errorState[name] && <div className={s.errorMsg}>{inputs[name].errorMsg}</div>}
         </div>
     )
 }
-    
+
+export function Textarea({name, placeholder, inputs, errorState}){
+    return(
+        <div className={s.inputItem}>
+            <textarea name={name} className={s.input} placeholder={placeholder} />
+            {errorState[name] && <div className={s.errorMsg}>{inputs[name].errorMsg}</div>}
+        </div>
+    )
+}
